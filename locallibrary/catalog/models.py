@@ -114,3 +114,19 @@ def display_genre(self):
         """Create a string for the Genre. This is required to display genre in Admin."""
         return ', '.join(genre.name for genre in self.genre.all()[:3])
         display_genre.short_description = 'Genre'
+
+class Language(models.Model):
+    """Model representing a Language."""
+    name = models.CharField(
+        max_length=200,
+        unique=True,
+        help_text="Enter the book's natural language."
+    )
+
+    def get_absolute_url(self):
+        """Returns the URL to access language instances."""
+        return reverse('language-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """String representation of the Language object."""
+        return self.name
