@@ -27,6 +27,12 @@ def index(request):
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
 
+    # Count genres containing the word "fiction" (case insensitive)
+    num_horror_genres = Genre.objects.filter(name__icontains='horror').count()
+
+    # Count books containing the word "piano" (case insensitive) in their title or summary
+    num_piano_books = Book.objects.filter(title__icontains='piano').count() + \
+                        Book.objects.filter(summary__icontains='piano').count()
 
     context = {
         'num_books': num_books,
@@ -34,12 +40,14 @@ def index(request):
         'num_instances_available': num_instances_available,
         'num_authors': num_authors,
         'num_visits': num_visits,
+        'num_fiction_genres': num_horror_genres,
+        'num_fiction_books': num_piano_books
 
     }
 
-
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
+
 class BookListView(generic.ListView):
     model = Book
     paginate_by = 10
