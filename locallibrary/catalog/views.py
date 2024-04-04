@@ -35,6 +35,7 @@ def index(request):
         'num_visits': num_visits,
     }
 
+
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
 class BookListView(generic.ListView):
@@ -64,6 +65,7 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
             .filter(status__exact='o')
             .order_by('due_back')
         )
+
 
 class LoanedBooksAllListView(PermissionRequiredMixin, generic.ListView):
     """Generic class-based view listing all books on loan. Only visible to users with can_mark_returned permission."""
@@ -107,6 +109,7 @@ def renew_book_librarian(request, pk):
     }
 
     return render(request, 'catalog/book_renew_librarian.html', context)
+
 
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
