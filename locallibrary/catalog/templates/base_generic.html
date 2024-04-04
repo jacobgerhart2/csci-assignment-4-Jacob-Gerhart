@@ -50,6 +50,15 @@
             {% if perms.catalog.add_author %}
               <li><a href="{% url 'author-create' %}">Create author</a></li>
             {% endif %}
+            {% if perms.catalog.add_language %}
+              <li><a href="{% url 'language-create' %}">Create language</a></li>
+            {% endif %}
+            {% if perms.catalog.add_book %}
+              <li><a href="{% url 'book-create' %}">Create book</a></li>
+            {% endif %}
+            {% if perms.catalog.add_bookinstance %}
+              <li><a href="{% url 'bookinstance-create' %}">create BookInstance</a></li>
+            {% endif %}
           </ul>
           {% endif %}
           {% endblock %}
