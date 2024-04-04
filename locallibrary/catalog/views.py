@@ -26,7 +26,7 @@ def index(request):
     # Number of visits to this view, as counted in the session variable.
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
-    
+
 
     context = {
         'num_books': num_books,
@@ -44,16 +44,20 @@ class BookListView(generic.ListView):
     model = Book
     paginate_by = 10
 
+
 class AuthorListView(generic.ListView):
     model = Author
     paginate_by = 10
+
 
 class AuthorDetailView(generic.DetailView):
     """Generic class-based detail view for an author."""
     model = Author
 
+
 class BookDetailView(generic.DetailView):
     model = Book
+
 
 class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     """Generic class-based view listing books on loan to current user."""
@@ -78,6 +82,7 @@ class LoanedBooksAllListView(PermissionRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+
 
 @login_required
 @permission_required('catalog.can_mark_returned', raise_exception=True)
@@ -113,17 +118,20 @@ def renew_book_librarian(request, pk):
     return render(request, 'catalog/book_renew_librarian.html', context)
 
 
+
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
     initial = {'date_of_death': '11/11/2023'}
     permission_required = 'catalog.add_author'
 
+
 class AuthorUpdate(PermissionRequiredMixin, UpdateView):
     model = Author
     # Not recommended (potential security issue if more fields added)
     fields = '__all__'
     permission_required = 'catalog.change_author'
+
 
 class AuthorDelete(PermissionRequiredMixin, DeleteView):
     model = Author
